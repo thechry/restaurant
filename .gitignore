@@ -30,17 +30,17 @@ working_backup/*
 /resources/views/admin/product/_edit_product.origin.twig
 /resources/views/admin/product/_insert_product.origin.twig
 /resources/views/admin/subcategory/_insert_subcategory.origin.twig
-/public/css/*
-/public/img/*
-/public/js/*
+public/css/*
+public/img/*
+public/js/*
 /public/testCom.php
-/translations/*
+translations/*
 /TODO - FrontEnd
 /composer.json
 /TODO - BackEnd
 /composer.lock
-/nbproject/*
-/log/*
+nbproject/*
+log/*
 /app/Models/_Apografike.php
 /app/Models/_Product.php
 /app/Models/_Fpa.php
@@ -49,3 +49,9 @@ working_backup/*
 /app/Models/_Etos.php
 /app/Models/_Has.php
 /public/.pass.php
+/app/Controllers/_FpaController.php
+/app/Controllers/_PackageController.php
+/app/Controllers/_EtosController.php
+/app/Controllers/_ProductController.php
+/app/Controllers/Admin/Page/_PageSettingsController.php
+/app/Controllers/Admin/Test/TabsTestController.php
