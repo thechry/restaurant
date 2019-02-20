@@ -1,0 +1,39 @@
+{% extends "admin/admin_home.twig" %}
+
+{% block contents %}
+                <div class="text-center mt-5">
+                  <form class="form-signin" id="signin_form" method="post" name="signin_form" action="{{ path_for('admin_signin') }}" autocomplete="off">
+                      <table class="table table-borderless">
+                          <tbody>
+                              <tr>
+                                  <th>
+                                      <h1 class="h3 font-weight-normal">Είσοδος</h1>
+                                  </th>
+                              </tr>
+                              <tr>
+                                  <td>
+                                    <label for="inputName" class="sr-only">Όνομα Χρήστη</label>
+                                    <input type="text" id="inputUsername" name="username" class="form-control" maxlength="10" placeholder="Όνομα Χρήστη" required tabindex="1">
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td>
+                                    <label for="inputPassword" class="sr-only">Κωδικός</label>
+                                    <input type="password" id="inputPassword" name="password" class="form-control" maxlength="10" placeholder="Κωδικός" required tabindex="2">
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td>
+                                      <button class="btn btn-lg btn-primary btn-block" type="submit" tabindex="3">Είσοδος</button>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td>
+                                      {{ csrf.field | raw }}
+                                  </td>
+                              </tr>
+                          </tbody>
+                      </table>
+                  </form>
+                </div>
+{% endblock%}

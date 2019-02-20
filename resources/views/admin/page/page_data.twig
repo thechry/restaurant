@@ -1,0 +1,134 @@
+{% extends "admin/admin_home.twig" %}
+
+{% block contents %}      
+     {% if auth.check %}
+<main role="main" class="col-md-9 ml-sm-auto col-lg-12 px-4">
+    <!-- Start Breadcrump -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href='{{ base_url() }}/admin/dashboard'>Αρχική</a></li>
+            <li class="breadcrumb-item active">Στοιχεία Σελίδας</li>
+        </ol>
+    </nav>
+    <!-- End Breadcrump -->
+    <div class="text-center pt-3 pb-2 mb-3 mt-3">
+        <div class="container-fluid">
+            <div class="card border-info">
+                <!-- Start Save or Cancel -->
+                <div  class="card-header">
+                    <ul class="nav nav-pills card-header-pills  justify-content-end">
+                        <li class="nav-item">
+                            <button type="button" class="btn btn-outline-primary" onclick="postPageForm()" tabindex="11">Αποθήκευση</button>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path_for('admin_home') }}" tabindex="12">Ακύρωση</a>
+                        </li>
+                    </ul>
+                </div>  
+                <!-- End Save or Cancel -->
+                
+                <!-- Start Tabs -->
+                <div class="container-fluid">
+                    <!-- First Tab Menu -->
+                    <ul id="page-nav" class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#page" id="page-tab" role="tab" data-toggle="tab" aria-controls="page" aria-expanded="true" tabindex="1">Στοιχεία Σελίδας</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#logo" id="logo-tab" role="tab" data-toggle="tab" aria-controls="logo" aria-expanded="true" tabindex="9">Εικόνα Λογότυπου</a>
+                        </li>
+                    </ul>
+                    <!-- End First Tab Menu -->
+                    
+                    <form name="page_form" id="form_page" method="post" action="{{ path_for('page_settings_form') }}" autocomplete="off" enctype="multipart/form-data">
+                    <!-- Start First Tab Menu Contents -->
+                    <div id="page-nav-content" class="tab-content">
+                        <div role="tabpanel" class="tab-pane fade show active" id="page" aria-labelledby="page">
+                            <!-- Start Second Tab Menu -->
+                            <ul role="tablist" class="nav nav-tabs">
+                                <li class="nav-item">
+                                    <a href="#gr" class="nav-link" role="tab" data-toggle="tab" aria-controls="gr" aria-expanded="true" tabindex="2">Ελληνικά</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#en" class="nav-link" role="tab" data-toggle="tab" aria-controls="en" aria-expanded="true" tabindex="6">Αγγλικά</a>
+                                </li>
+                            </ul>
+                            <!-- End Second Tab Menu -->
+                        
+                            <!-- Start Second Tab Menu Contents -->
+                            <div id="lang-nav-content" class="tab-content">
+                                <!-- Greek -->
+                                <div class="tab-pane w-50 ml-2 fade show active"  id="gr" role="tabpanel" aria-labelledby="gr-tab">
+                                    <div class="form-group text-left">
+                                        <label for="pagename"><strong>&nbsp;Όνομα Σελίδας</strong></label>
+                                        <input type="text" class="form-control" name="pagename" id="pagename" aria-describedby="pagename-gr" placeholder="Όνομα Σελίδας" value="{{ page }}" tabindex="3" required>
+                                        <small class="text-muted">Ονομασία της σελίδας. <u>Υποχρεωτικό πεδίο!</u></small>                                        
+                                    </div>
+                                    <div class="form-group text-left">
+                                        <label for="pagetitle_gr"><strong>&nbsp;Τίτλος Σελίδας</strong></label>
+                                        <input type="text" class="form-control" name="pagetitle_gr" id="pagetitle_gr" placeholder="Τίτλος Σελίδας" value="{{ title[0][0] }}" tabindex="4" required>
+                                        <small class="text-muted">Τίτλος της σελίδας. Εμφανίζεται στο tab του φυλλομετρητή. <u>Υποχρεωτικό πεδίο!</u></small>  
+                                    </div>
+                                    <div class="form-group text-left">
+                                        <label for="logoname_gr"><strong>&nbsp;Κείμενο Λογότυπου</strong></label>
+                                        <input type="text" class="form-control" name="logoname_gr" id="logoname_gr" placeholder="Όνομα Logo" value="{{ logo[0][0] }}" tabindex="5" required>
+                                        <small class="text-muted">Κείμενο λογότυπου. Εμφανίζεται μετά την εικόνα του λογότυπου. <u>Υποχρεωτικό πεδίο!</u></small>  
+                                    </div>
+                                </div>
+                                <!-- End Greek -->
+                                
+                                <!-- English -->
+                                <div class="tab-pane w-50 ml-2"  id="en" role="tabpanel" aria-labelledby="en-tab">
+                                    <!--<div class="form-group text-left">
+                                        <label for="pagename_en"><strong>&nbsp;Όνομα Σελίδας</strong></label>
+                                        <input type="text" class="form-control" name="pagename_en" id="pagename_en" aria-describedby="pagename_en" placeholder="Page Name" value="{{ page[1][0] }}" tabindex="1" required>
+                                        <small class="text-muted">Ονομασία της σελίδας. Υποχρεωτικό πεδίο!</small>
+                                    </div>-->
+                                    <div class="form-group text-left">
+                                        <label for="pagetitle_en"><strong>&nbsp;Τίτλος Σελίδας</strong></label>
+                                        <input type="text" class="form-control" name="pagetitle_en" id="pagetitle_en" placeholder="Page Title" value="{{ title[1][0] }}" tabindex="7" required>
+                                        <small class="text-muted">Τίτλος της σελίδας. Εμφανίζεται στο tab του φυλλομετρητή. <u>Υποχρεωτικό πεδίο!</u></small>
+                                    </div>
+                                    <div class="form-group text-left">
+                                        <label for="logoname_en"><strong>&nbsp;Κείμενο Λογότυπου</strong></label>
+                                        <input type="text" class="form-control" name="logoname_en" id="logoname_en" placeholder="Logo Text" value="{{ logo[1][0] }}" tabindex="8" required>
+                                        <small class="text-muted">Κείμενο λογότυπου. Εμφανίζεται μετά την εικόνα του λογότυπου. <u>Υποχρεωτικό πεδίο!</u></small> 
+                                    </div>
+                                </div>
+                                <!-- End English -->
+                            </div>
+                            <!-- End Second Tab Menu Contents -->
+                        </div>   
+                        <div role="tabpanel" class="tab-pane fade show" id="logo" aria-labelledby="logo">
+                            <div class="tab-pane w-50 ml-2 py-5" id="page2" role="tabpanel" aria-labelledby="profile-tab">
+                                <div class="form-group custom-file" id="customFile">
+                                    <input type="file" class="custom-file-input" name="logoimg" id="inputLogoImg" aria-describedby="fileHelp" multiple tabindex="10">
+                                    <small class="text-muted">Εικόνα λογότυπου. <u>Υποχρεωτικό πεδίο!</u></small> 
+                                    <label class="custom-file-label" for="inputLogoImg">
+                                        {% if logo_img is empty %}
+                                            Εικόνα Λογότυπου            
+                                        {% else %}
+                                            {{ logo_img }}
+                                        {% endif %}    
+                                    </label>
+                                    <div class="form-group mt-2" id="thumb-output">
+                                        <img src="{{ path }}{{ logo_img }}" height=55px" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+                    {{ csrf.field | raw }}
+                    <!-- End First Tab Menu Contents -->
+                    </form>
+                    
+                </div>
+                <!-- End Tabs --->
+                
+            </div>
+        </div>
+    </div>
+    <p> {{ error }} </p>
+</main> 
+{% endif %}
+{% endblock %}

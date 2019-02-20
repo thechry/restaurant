@@ -1,0 +1,95 @@
+{% extends "admin/admin_home.twig" %}
+
+{% block contents %}      
+     {% if auth.check %}
+         <main role="main" class="col-md-9 ml-sm-auto col-lg-12 px-4">
+             <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href='{{ base_url() }}/admin/dashboard'>Αρχική</a></li>
+                    <li class="breadcrumb-item active">Εμφάνιση Προϊόντων</li>
+                </ol>
+            </nav>
+            <div class="text-center pt-3 pb-2 mb-3 mt-3">
+                <div class="card border-info" >
+                    <div class="card-body">
+                        
+                        <div class="card-header">
+                            <ul class="nav nav-pills card-header-pills  justify-content-end">
+                                <li class="nav-item px-4">
+                                    <a href="{{ path_for('insert_product_form') }}"><button type="button" class="btn btn-outline-primary">Εισαγωγή</button></a>
+                                </li>
+                                <li class="nav-item px-4">
+                                  <a class="nav-link" href="{{ path_for('admin_home') }}">Ακύρωση</a>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <h5 class="card-title">Λίστα Προϊόντων</h5>
+                        {% if exists %}
+                        
+                        <table class="table table-striped">
+                            <caption>Προϊόντα</caption>
+                            <thead>
+                                <tr>
+                                    <th scope="col">Ενεργό</th>
+                                    <th scope="col">Ταξινόμηση</th>
+                                    <th scope="col">Προϊόν</th>
+                                    <th scope="col">Υποκατηγορία</th>
+                                    <th scope="col">Κατηγορία</th>
+                                    <th scope="col">Διαχείριση</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% set prod_len = 0 %}
+                                {% for product in products %}
+                                <tr>
+                                    <td>
+                                        {% if product['product_active'] %}
+                                            <i class="fa fa-check-square btn-outline-info disabled"></i>
+                                        {% else %}
+                                            <i class="fa fa-minus-square btn-outline-danger disabled"></i>
+                                        {% endif%}
+                                    </td>
+                                    <td>
+                                        {{ product['product_order'] }}
+                                    </td>
+                                    <td>
+                                        {{ product_title[prod_len][0][0] }}
+                                    </td>
+                                    <td>
+                                        {{ subcat_name[prod_len][0][0] }}
+                                    </td>
+                                    <td>
+                                        {{ cat_name[prod_len][0][0] }}
+                                    </td>
+                                    <td>
+                                        <form method="post" action="{{ path_for('edit_product') }}" class="inline">
+                                            <input type="hidden" name="aProduct" value="{{ product['id'] }}">
+                                            {{ csrf.field | raw }}
+                                            <button type="submit" name="submit" value="submit" class="link-button">
+                                                <span class="btn btn-outline-info btn-sm" role="button"><i class="fa fa-pencil-square-o" title="Edit"></i></span>
+                                            </button>
+                                        </form>
+
+                                    </td>
+                                </tr>
+                                {% set prod_len = prod_len + 1 %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                           
+                        {% else %}
+                         <table class="table">
+                             <thead>
+                                <tr>
+                                    <th scope="col">Δεν υπάρχουν καταχωρήσεις!</th>
+                                </tr>
+                             </thead>
+                         </table>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+         </main>
+{% endif %}
+{% endblock %}

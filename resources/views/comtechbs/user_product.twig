@@ -1,0 +1,91 @@
+{% extends "/comtechbs/user_home.twig" %}
+
+{% block data %}
+    <div class="album py-2 bg-light" style="background-image: url({{ base_url() }}/img/bgs/bg-square-2.png); background-repeat: no-repeat; background-position: 5% 5%; background-size: cover">
+        <div class="container">
+            <!-- Breadcrump -->
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb" style="background-color: #f5f5f5; letter-spacing:4px;">
+                    <li class="breadcrumb-item"><a href="{{ base_url() }}/index/{{ locale }}">
+                            <i class="fa fa-2x fa-home"></i></a>
+                    </li>
+                    <li class="breadcrumb-item active">
+                        <a href="{{ base_url() }}/index/{{ locale }}/category/{{ categories.category_slug }}">
+                            <button type="button" class="btn btn-outline-success  btn-sm">
+                                {% if locale is same as('gr') %}
+                                {{ cat_title[0][0] }}
+                                {% elseif locale is same as('en') %}
+                                {{ cat_title[1][0] }}
+                                {% endif %}
+                                </button>                                
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item active">
+                        <a href="{{ base_url() }}/index/{{ locale }}/subcategory/{{ subcategories.subcategory_slug }}">
+                            <button type="button" class="btn btn-outline-success  btn-sm">
+                                {% if locale is same as('gr') %}
+                                {{ subcat_title[0][0] }}
+                                {% elseif locale is same as('en') %}
+                                {{ subcat_title[1][0] }}
+                                {% endif %}
+                                </button>
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item active">
+                        {% if locale is same as('gr') %}
+                        {{ prod_title[0][0] }}
+                        {% elseif locale is same as('en') %}
+                        {{ prod_title[1][0] }}
+                        {% endif %}
+                    </li>
+                </ol>
+                <p class="float-right">
+                    <a href="{{ base_url() }}/index/{{ locale }}/subcategory/{{ subcategories.subcategory_slug }}" title="{{ messages['messages']['Πίσω'] }}"><i class="fa fa-arrow-circle-left text-success" style="font-size: 3.5em;"></i></a>
+                </p>
+            </nav>            
+            <!-- End breadcrump -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card mb-4 shadow-sm">
+                    <!--<img class="card-img-top" data-src="holder.js/100px450?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap">-->
+                    <img class="rounded card-img-top" src="../../../img/product/{{ products[0].product_foto }}" alt="{% if locale is same as('gr') %}{{ prod_title[0][0] }}{% elseif locale is same as('en') %}{{ prod_title[1][0] }}{% endif %}">
+                    </div>                    
+                </div>
+                <div class="col-md-6">
+                    <div class="card mb-4 shadow-sm border-info">
+                        <h4 class="card-header text-center">{% if locale is same as('gr') %}{{ prod_title[0][0] }}{% elseif locale is same as('en') %}{{ prod_title[1][0] }}{% endif %}</h4>
+                        <div class="card-body">
+                            <div class="card-title text-center">
+                                <h5>{{ messages['messages']['Συστατικά'] }}</h5>
+                            </div>
+                            <div class="card-text border-bottom">
+                                {% if locale is same as('gr') %}
+                                {{ prod_desc[0][0] }}
+                                {% elseif locale is same as('en') %}
+                                {{ prod_desc[1][0] }}
+                                {% endif %}
+                            </div>
+                            <div class="card-title w-100">
+                            </div>
+                            <!--<div class="card-title text-center">
+                                <h5>Παράδοση</h5>
+                            </div>-->
+                            <div class="card-text border-bottom text-center">
+                                <i class="fa fa-2x fa-clock btn-outline-success disabled"></i>&nbsp;<h6>{{ products[0].product_time_todo }}'</h6>
+                            </div>
+                            <div class="card-title w-100">
+                            </div>
+                            <!--<div class="card-title text-center">
+                                <h5>Τιμή</h5>
+                            </div>-->
+                            <div class="card-text text-center">
+                                <h4><u>{{ products[0].product_price }}</u>&nbsp;<i class="fas small fa-euro-sign text-success"></i></h4>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

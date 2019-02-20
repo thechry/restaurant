@@ -1,0 +1,93 @@
+{% extends "admin/admin_home.twig" %}
+
+{% block contents %}      
+     {% if auth.check %}
+         <main role="main" class="col-md-9 ml-sm-auto col-lg-12 px-4">
+             <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href='{{ base_url() }}/admin/dashboard' tabindex="1">Αρχική</a></li>
+                    <li class="breadcrumb-item active">Εμφάνιση Υποκατηγοριών</li>
+                </ol>
+            </nav>
+            <div class="text-center pt-3 pb-2 mb-3 mt-3">
+                <div class="card border-info" >
+                    <div class="card-body">
+                        
+                        <div class="card-header">
+                            <ul class="nav nav-pills card-header-pills  justify-content-end">
+                                <li class="nav-item px-4">
+                                    <a href="{{ path_for('insert_subcategory_form') }}"><button type="button" class="btn btn-outline-primary" tabindex="2">Εισαγωγή</button></a>
+                                </li>
+                                <li class="nav-item px-4">
+                                  <a class="nav-link" href="{{ path_for('admin_home') }}" tabindex="3">Ακύρωση</a>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <h5 class="card-title">Λίστα Υποκατηγοριών</h5>
+                        {% if exists %}
+                        <table class="table table-striped">
+                            <caption>Υποκατηγορίες</caption>
+                            <thead>
+                                <tr>
+                                    <th scope="col">Ενεργή</th>
+                                    <th scope="col">Ταξινόμηση</th>
+                                    <th scope="col">Υποκατηγορίες</th>
+                                    <th scpe="col">Κατηγορία</th>
+                                    <th scope="col">Διαχείριση</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% set len = 0 %}
+                                {% for subcategory in subcategories %}
+                                <tr>
+                                    <td>
+                                        {% if subcategory['subcategory_active'] %}
+                                            <i class="fa fa-check-square btn-outline-info disabled"></i>
+                                        {% else %}
+                                            <i class="fa fa-minus-square btn-outline-danger disabled"></i>
+                                        {% endif%}
+                                    </td>
+                                    <td>
+                                        {{ subcategory['subcategory_position'] }}
+                                    </td>
+                                    <td>
+                                        {{ subcat_titles[len][0][0] }}
+                                    </td>
+                                    
+                                    <td>
+                                        {{ cat_name[len][0][0] }}
+                                    </td>
+                                    <td>
+                                        <form method="post" action="{{ path_for('edit_subcategory') }}" class="inline">
+                                            <input type="hidden" name="aSubcategory" value="{{ subcategory['id'] }}">
+      {{ csrf.field | raw }}
+                                            <button type="submit" name="submit" value="submit" class="link-button">
+                                                <span class="btn btn-outline-info btn-sm" role="button">
+                                                    <i class="fa fa-pencil-square-o text-color-default" title="Επεξεργασία"  tabindex="{{ len + 4 }}"></i>
+                                                </span>
+                                            </button>
+                                        </form>
+
+                                    </td>
+                                </tr>
+                                {% set len = len + 1 %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                           
+                        {% else %}
+                         <table class="table">
+                             <thead>
+                                <tr>
+                                    <th scope="col">Δεν υπάρχουν καταχωρήσεις!</th>
+                                </tr>
+                             </thead>
+                         </table>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+         </main>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends "admin/admin_home.twig" %}
+
+{% block contents %}
+ {% if auth.check %}
+     <main role="main" class="col-md-9 ml-sm-auto col-lg-12 px-4">
+         <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href='{{ base_url() }}/admin/dashboard'>Αρχική</a></li>
+                    <li class="breadcrumb-item active">Εγγραφή Νέου Χρήστη</li>
+                </ol>
+            </nav>
+  <div class="text-center">
+    <form class="form-signup" id="signup_form" method="post" name="signup_form" action="{{ path_for('admin_signup') }}" autocomplete="off">
+      <!-- <img class="mb-4" src="../../assets/brand/bootstrap-solid.svg" alt="" width="72" height="72"> -->
+        
+        <table class="table table-borderless">
+            <tbody>
+                <tr>
+                    <th>
+                        <h1 class="h3 font-weight-normal">Εγγραφή Νέου Χρήστη</h1>
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                      <label for="inputSurname" class="sr-only">Όνομα - Επώνυμο</label>
+                      <input type="text" id="inputSurname" name="surname" class="form-control" maxlength="50" placeholder="Όνομα - Επώνυμο" required tabindex="1">
+                    </td>
+                    <td class="align-content-center">          
+                      <i class="fa fa-info-circle text-info" data-toggle="tooltip" data-placement="top" title="Από 3 έως 50 χαρακτήρες"></i>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                      <label for="inputName" class="sr-only">Όνομα Χρήστη</label>
+                      <input type="text" id="inputUsername" name="username" class="form-control" maxlength="10" placeholder="Όνομα Χρήστη" required tabindex="2">
+                    </td>
+
+                    <td>
+                        <i class="fa fa-info-circle text-info" data-toggle="tooltip" data-placement="top" title="Από 3 έως 10 γράμματα χωρίς κενά"></i>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                      <label for="inputPassword" class="sr-only">Κωδικός</label>
+                      <input type="password" id="inputPassword" name="password" class="form-control" maxlength="10" placeholder="Κωδικός" required tabindex="3">
+                    </td>
+                    <td>
+                        <i class="fa fa-info-circle text-info" data-toggle="tooltip" data-placement="top" title="Από 8 έως 10 χαρακτήρες χωρίς κενά"></i>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button class="btn btn-lg btn-primary btn-block" type="submit" tabindex="4">Εγγραφή</button>
+                    </td>
+                    <td>
+                        
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        {{ csrf.field | raw }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+  </div>
+     </main>
+{% endif %}
+  
+{% endblock%}

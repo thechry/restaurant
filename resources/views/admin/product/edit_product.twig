@@ -1,0 +1,185 @@
+{% extends "admin/admin_home.twig" %}
+
+{% block contents %}      
+     {% if auth.check %}
+<main role="main" class="col-md-9 ml-sm-auto col-lg-12 px-4">
+    <!-- Start Breadcrump -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href='{{ base_url() }}/admin/dashboard'>Αρχική</a></li>
+            <li class="breadcrumb-item"><a href='{{ base_url() }}/admin/dashboard/product/list'>Εμφάνιση Προϊόντων</a></li>
+            <li class="breadcrumb-item active">Μεταβολή Προϊόντος</li>
+        </ol>
+    </nav>
+    <!-- End Breadcrump -->
+    
+                <div class="text-center pt-3 pb-2 mb-3 mt-3">
+                    <div class="card border-info">
+                        <!-- Start Save or Cancel -->
+                        <div class="card-header">
+                            <ul class="nav nav-pills card-header-pills  justify-content-end">
+                                <li class="nav-item">
+                                        <button type="button" class="btn btn-outline-primary" onclick="postProductForm()" tabindex="18">Αποθήκευση</button>
+                                </li>
+                                <li class="nav-item">
+                                  <a class="nav-link" href="{{ path_for('show_products') }}" tabindex="19">Ακύρωση</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- End Save or Cancel -->
+                        
+                        <!-- Start Tabs -->
+                        <div class="container-fluid">
+                            <!-- First Tab Menu -->
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item">
+                                  <a class="nav-link" id="prod-tab" data-toggle="tab" href="#prod" role="tab" aria-controls="prod" aria-selected="true" tabindex="1">Στοιχεία Προϊόντος</a>
+                                </li>
+                                <li class="nav-item">
+                                  <a class="nav-link" id="prod-logo-tab" data-toggle="tab" href="#prod-logo" role="tab" aria-controls="img_tab" aria-selected="false" tabindex="16">Εικόνα Προϊόντος</a>
+                                </li>
+                            </ul>
+                            <!-- End First Tab Menu -->
+                            
+                    <form name="product_form" id="form_page" method="post" action="{{ path_for('post_edited_product') }}" autocomplete="off" enctype="multipart/form-data">
+                    <!-- Start First Tab Menu Contents -->
+                    <div id="subcat-nav-content" class="tab-content">
+                        <div role="tabpanel" class="tab-pane fade show active" id="prod" aria-labelledby="subcat">
+                            <ul role="tablist" class="nav nav-tabs">
+                                <li class="nav-item">
+                                    <a href="#gr" class="nav-link" role="tab" data-toggle="tab" aria-controls="gr" aria-expanded="true" tabindex="2">Ελληνικά</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#en" class="nav-link" role="tab" data-toggle="tab" aria-controls="en" aria-expanded="true" tabindex="13">Αγγλικά</a>
+                                </li>
+                            </ul>
+                            <!-- End Second Tab Menu -->
+                            
+                            <!-- Start Second Tab Menu Contents -->
+                            <div id="lang-nav-content" class="tab-content mb-5">
+                                <!-- Greek -->
+                                <div class="tab-pane w-50 ml-2 fade show active"  id="gr" role="tabpanel" aria-labelledby="gr-tab">
+                                    <div class="form-group text-left">
+                                        <label for="productname_gr"><strong>&nbsp;Προϊόντα</strong></label>
+                                        <input type="text" class="form-control" name="productname_gr" id="productname_gr" aria-describedby="emailHelp" placeholder="Προϊόν" value="{{ product_title[0][0] }}" required tabindex="3">
+                                        <small class="text-muted">Όνομα προϊόντος. <u>Υποχρεωτικό πεδίο!</u></small>
+                                    </div>
+                                    <div class="form-group text-left">
+                                        <label class="form-check-label pr-4" for="productactive"><strong>Ενεργό</strong></label>        
+                                        <input class="form-check-input" {% if product_active == 1 %}checked{% endif %} type="checkbox" name="active" id="productactive" value="{{ product_active }}" tabindex="4">
+                                        <small class="text-muted">Εμφάνιση προϊόντος.</small>
+                                    </div>
+                                    <div class="form-group text-left">
+                                        <label class="form-check-label pr-4" for="productfeatured"><strong>Προτεινόμενο</strong></label>        
+                                        <input class="form-check-input" {% if product_featured == 1 %}checked{% endif %} type="checkbox" name="productfeatured" id="productfeatured" value="{{ product_featured }}" tabindex="5">
+                                        <small class="text-muted">Εμφάνιση προϊόντος στην αρχική σελίδα.</small>
+                                    </div>
+                                    <div class="form-group text-left">
+                                        <label for="productdescription_gr"><strong>&nbsp;Περιγραφή Προϊόντος</strong></label>
+                                        <textarea class="form-control" id="productdescription_gr" name="productdescription_gr" rows="3" title="Το πεδίο είναι υποχρεωτικό" required tabindex="6">{{ product_desc[0][0] }}</textarea>
+                                        <small class="text-muted">Περιγραφή προϊόντος π.χ. συστατικά. <u>Υποχρεωτικό πεδίο!</u></small>
+                                    </div>
+                                    <div class="form-group text-left">
+                                        <label for="productprice"><strong>&nbsp;Τιμή Προϊόντος</strong></label>
+                                      <input type="number" lang="en" class="form-control" name="productprice" id="productprice" placeholder="Τιμή Προϊόντος" title="Το πεδίο είναι υποχρεωτικό από 0.00 &euro; έως 1000.00 &euro;." min="0.00" max="1000.00" step="0.01" value="{{ product_price }}" tabindex="7">
+                                      <small class="text-muted">Κόστος προϊόντος από 0.00 &euro; έως 1000.00 &euro;. Χρήση δεκαδικού με τελεία. <u>Υποχρεωτικό πεδίο!</u></small>
+                                    </div>
+                                    <div class="form-group text-left">
+                                        <label for="selectcategory"><strong>&nbsp;Κατηγορία όπου ανήκει</strong></label>
+                                        <select name="selectcategory" required tabindex="8">
+                                            <option value="{{ product_cat_id }}" selected>{{ product_cat_name[0][0] }}</option>
+                                            <option disabled>----------</option>
+                                            {% set cat_len = 0 %}
+                                            {% if categories is iterable %}
+                                                {% for category in categories %}
+                                            <option value="{{ category.id }}">{{ cat_titles[cat_len][0][0] }}</option>
+                                                {% set cat_len = cat_len + 1 %}
+                                                {% endfor %}
+                                            {% else %}
+                                                <option value="-1">Δεν υπάρχουν κατηγορίες</option>
+                                            {% endif %}
+                                        </select>
+                                        <small class="text-muted">Κατηγορία προϊόντος. <u>Υποχρεωτικό πεδίο!</u></small>
+                                    </div>
+                                    <div class="form-group text-left">
+                                        <label for="selectsubcategory"><strong>&nbsp;Υποκατηγορία όπου ανήκει</strong></label>
+                                        <select name="selectsubcategory" required tabindex="9">
+                                            <option value="{{ product_subcat_id }}" selected>{{ product_subcat_name[0][0] }}</option>
+                                            <option disabled>----------</option>
+                                            {% set subcat_len = 0 %}
+                                            {% if subcategories is iterable %}
+                                                {% for subcategory in subcategories %}
+                                            <option value="{{ subcategory.id }}">{{ subcat_titles[subcat_len][0][0] }}</option>
+                                                {% set subcat_len = subcat_len + 1 %}
+                                                {% endfor %}
+                                            {% else %}
+                                                <option value="-1">Δεν υπάρχουν υποκατηγορίες</option>
+                                            {% endif %}
+                                        </select>
+                                        <small class="text-muted">Υποκατηγορία προϊόντος. <u>Υποχρεωτικό πεδίο!</u></small>
+                                    </div>
+                                    <div class="form-group text-left">
+                                        <label for="producttimetodo"><strong>&nbsp;Χρόνος Προετοιμασίας Προϊόντος</strong></label>
+                                        <input type="number" class="form-control" name="producttimetodo" id="producttimetodo" placeholder="Χρόνος Προετοιμασίας Προϊόντος" title="Το πεδίο είναι υποχρεωτικό από 1 λεπτό έως 60 λεπτά." min="1" max="60" required value="{{ product_time_todo }}" tabindex="10">
+                                        <small class="text-muted">Χρόνος παράδοσης προϊόντος από 1 λεπτό έως 60 λεπτά. <u>Υποχρεωτικό πεδίο!</u></small>
+                                    </div>
+                                    <div class="form-group text-left">
+                                        <label for="productσlug"><strong>&nbsp;Ψευδώνυμο Προϊόντος</strong></label>
+                                      <input type="text" class="form-control" name="productslug" id="productslug" placeholder="Ψευδώνυμο Προϊόντος" value="{{ product_slug }}" tabindex="11">
+                                      <small class="text-muted">Ψευδώνυμο προϊόντος. <u>Υποχρεωτικό πεδίο!</u></small>
+                                    </div>
+                                    <div class="form-group text-left">
+                                        <label for="productorder"><strong>&nbsp;Ταξινόμηση Προϊόντος</strong></label>
+                                        <input type="range" class="form-control " name="productorder" id="productorder" min="0" max="10" value="{{ product_order }}" onchange="rangevalue.value=value" tabindex="12">
+                                        <output class="text-info" id="rangevalue">{{ product_order }}</output>
+                                        <small class="text-muted">Ταξινόμηση προϊόντος από 0 έως 10.</small>
+                                    </div>
+                                </div>
+                                <!-- End Greek -->
+
+                                <!-- English -->
+                                <div class="tab-pane w-50 ml-2"  id="en" role="tabpanel" aria-labelledby="en-tab">
+                                    <div class="form-group text-left">
+                                        <label for="productname_en"><strong>&nbsp;Προϊόντα</strong></label>
+                                        <input type="text" class="form-control" name="productname_en" id="productname_en" aria-describedby="emailHelp" placeholder="Product" value="{{ product_title[1][0] }}" required tabindex="14">
+                                        <small class="text-muted">Όνομα προϊόντος. <u>Υποχρεωτικό πεδίο!</u></small>
+                                    </div>
+                                    <div class="form-group text-left">
+                                        <label for="productdescription_en"><strong>&nbsp;Περιγραφή Προϊόντος</strong></label>
+                                        <textarea class="form-control" id="productdescription_en" name="productdescription_en" rows="3" title="Το πεδίο είναι υποχρεωτικό" required tabindex="15">{{ product_desc[1][0] }}</textarea>
+                                        <small class="text-muted">Περιγραφή προϊόντος π.χ. συστατικά. <u>Υποχρεωτικό πεδίο!</u></small>
+                                    </div>
+                                </div>
+                                <!-- End English -->
+                            </div>
+                            <!-- End Second Tab Menu Contents -->
+                        </div>
+                                    
+                        <div class="tab-pane w-50 ml-2 py-5" id="prod-logo" role="tabpanel" aria-labelledby="profile-tab">
+                            <div class="form-group custom-file" id="customFile">
+                                <input type="file" class="custom-file-input" name="prodimg" id="inputProductImg" aria-describedby="fileHelp" multiple required tabindex="17">
+                                <small class="text-muted">Εικόνα προϊόντος. <u>Υποχρεωτικό πεδίο!</u></small>
+                                <label class="custom-file-label" for="inputProductImg">
+                                    {% if product_foto is empty%}
+                                        Εικόνα Κατηγορίας
+                                    {% else %}
+                                        {{ product_foto }}
+                                    {% endif %}
+                                </label>
+                                <div class="form-group mt-2" id="thumb-prod">
+                                    <img src="{{ product_path }}{{ product_foto }}" height="35px" />
+                                </div>
+                            </div>                           
+                        </div>
+                    </div>
+                    {{ csrf.field | raw }}
+                    <input type="hidden" name="aProduct" value="{{ product_id }}">
+                    <!--<input type="hidden" name="aProduct_en" value="{# product_id #}">-->
+                </form>
+            </div>
+        </div>
+    </div>
+    <p> {{ error }} </p>
+</main> 
+{% endif %}
+{% endblock %}

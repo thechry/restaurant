@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="el">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="COMTECH">
+        <link rel="icon" href="#">
+
+        <title>{{ page_title }}</title>
+
+        <!-- Bootstrap core CSS -->
+        <link rel="stylesheet" href="{{ base_url() }}/css/bootstrap.min.css">
+        <!--<link rel="stylesheet" href="{{ base_url() }}/css/fontawasome_5.6.3.css">
+        <link rel="stylesheet" href="{{ base_url() }}/../vendor/fortawesome/font-awesome/css/font-awesome.min.css">-->
+        <link rel="stylesheet" href="{{ base_url() }}/css/css/all.css">
+        <!-- Custom styles for this template -->
+        <link rel="stylesheet" href="{{ base_url() }}/css/album.css" >
+    </head>
+
+    <body>
+
+        <header id="top">
+          <!--<div class="collapse bg-dark" id="navbarHeader">
+            <div class="container">
+              <div class="row">
+                <div class="col-sm-8 col-md-7 py-4">
+                  <h4 class="text-white">About</h4>
+                  <p class="text-muted">Add some information about the album below, the author, or any other background context. Make it a few sentences long so folks can pick up some informative tidbits. Then, link them off to some social networking sites or contact information.</p>
+                </div>
+                <div class="col-sm-4 offset-md-1 py-4">
+                  <h4 class="text-white">Contact</h4>
+                  <ul class="list-unstyled">
+                    <li><a href="#" class="text-white">Follow on Twitter</a></li>
+                    <li><a href="#" class="text-white">Like on Facebook</a></li>
+                    <li><a href="#" class="text-white">Email me</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>-->
+            <div class="navbar navbar-light bg-info shadow-sm">
+                <div class="container d-flex justify-content-between">
+                    <a href="{{ path_for('index') }}" class="navbar-brand d-flex align-items-center">
+                        <img src="{{ path }}{{ logo_img }}" height="60px" /><strong class="text-white" >&nbsp;{{ logo_name }}</strong>
+                    </a>
+              <!--<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>-->
+                    <div class="dropdown">
+                        <button class="btn btn-info dropdown-toggle" type="button" id="language" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-2x fa-globe-africa text-white"></i></button>
+                        <div class="dropdown-menu" aria-labelledby="language">
+                              <a class="dropdown-item" href="#">EN</a>
+                              <a class="dropdown-item" href="#">DE</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main role="main">       
+            {% block data %}            
+            <div class="album py-5 bg-light">
+                <div class="container">
+                    {% if products is not empty %}
+                    <div class="navbar shadow-sm mb-1 rounded">
+                        <div class="container d-flex justify-content-center">
+                            <ul class="nav w-100 justify-content-center">
+                                <li class="nav-item">
+                                  <button type="button" class="btn btn-outline-success btn-block btn-lg" disabled>Προτεινόμενα</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Featured here -->
+                   
+                    <!--<div id="product_carousel" class="carousel slide carousel-fade mb-2" data-ride="carousel">-->
+
+                        <!-- Indicators -->
+                        <!--<ul class="carousel-indicators">
+                            {# set product_len = products|length #}
+                            {# for i in 0..product_len - 1 #}
+                            <li data-target="#product_carousel" data-slide-to="{{ i }}" {% if i is same as(0) %}class="active">{# endif #}</li>
+                            {# endfor #} 
+                        </ul>-->                       
+                        
+                        <!-- The slideshow -->
+                        <!--<div class="carousel-inner">
+                            {# set product_len = products|length #}
+                            {# for i in 0..product_len - 1 #}
+                                <div class="carousel-item{# if i is same as(0) #} active{# endif #}">
+                                    <a href="{# base_url() #}/product/{# products[i].product_slug #}">
+                                        <img class="rounded mx-auto d-block" src="./img/product/{# products[i].product_foto #}" alt="{# products[i].product_title #}" width="1100" height="450">
+                                    </a>
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h3 style="letter-spacing:4px;">{# products[i].product_title #}</h3>
+                                        <h4>{# products[i].product_price #} &euro;</h4>
+                                    </div>
+                                </div>
+                          {# endfor #}
+                        </div>-->
+  
+                        <!-- Left and right controls -->
+                        <!--<a class="carousel-control-prev" href="#product_carousel" data-slide="prev">
+                          <span class="carousel-control-prev-icon"></span>
+                        </a>
+                        <a class="carousel-control-next" href="#product_carousel" data-slide="next">
+                          <span class="carousel-control-next-icon"></span>
+                        </a>
+                    </div>-->
+                    
+                    
+                    
+                <div class="row">                                 
+                    {% set product_len = products|length %}
+                    {% for i in 0..product_len - 1 %}
+                        <div class="col-md-4">
+                            <a href="{{ base_url() }}/product/{{ products[i].product_slug }}">
+                            <div class="card mb-4 shadow-sm border-info">
+                                <img class="card-img-top" width="100%" height="225px" src="../public/img/product/{{ products[i].product_foto }}" alt="{{ products[i].product_title }}" style="border-radius: 5%;">
+                                <div class="card-body">
+                                    <p class="card-text">{{ products[i].product_title }}</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="btn-group w-100">
+                                            <!--<a href="{# base_url() #}/product/{# products[i].product_slug #}">-->
+                                                <button type="button" class="btn btn-sm btn-outline-secondary"><i class="fa fa-info btn-warning" style="font-size: 1.5rem"></i></button><!--</a>-->
+                                            <p class="w-50 text-center"><small class="text-muted ml-2 text-left">Αναμονή: {{ products[i].product_time_todo }}'</small></p>                                            
+                                            <p class="w-50 text-right"><small class="text-muted ml-2 text-right">Τιμή: € {{ products[i].product_price }}</small></p>
+                                        </div>                                        
+                                    </div>
+                                </div>
+                            </div>
+                            </a>
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+                        
+                    </div>
+                    
+                    <!-- End Featured -->
+                    
+                    {% if categories is not empty%}
+                    <div class="navbar shadow-sm mb-1 rounded">
+                        <div class="container d-flex justify-content-center">
+                            <ul class="nav w-100 justify-content-center">
+                                <li class="nav-item">
+                                  <button type="button" class="btn btn-outline-success btn-block btn-lg" disabled>Κατηγορίες</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="row">                    
+                        {% set cat_len = categories|length %}
+                        {% for i in 0..cat_len - 1 %}
+                            <div class="col-md-4">
+                                <div class="card mb-4 shadow-sm border-info">
+                                    {% if categories[i].category_foto is empty %}
+                                        {% set img_path = '' %}
+                                    {% else %}
+                                        {% set img_path = './img/category/' %}
+                                    {% endif %}
+                                    <a href="category/{{ categories[i].category_slug }}"><img class=" rounded card-img-top bg-transparent" src="{{ img_path }}{{ categories[i].category_foto }}"  width="100%" height="225px" title="{{ categories[i].category_title }}" /></a>
+                                    <div class="card-footer text-center" >
+                                        <span style="letter-spacing:4px;"><em>{{ categories[i].category_title }}</em></span>
+                                    </div>
+                            </div>
+                        </div>
+                        {% endfor %}  
+                    {% else %}
+                        <main role="main" class="col-md-9 ml-sm-auto col-lg-12 px-4 mt-3">
+                            <div class="text-center pt-3 pb-2 mb-3 border-bottom">
+                                <p>Δεν υπάρχουν καταχωρημένες κατηγορίες!</p>
+                            </div>
+                        </main>
+                    {% endif %}
+                    
+                        <!--<div class="col-md-4">
+                            <div class="card mb-4 shadow-sm">
+                                <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap">
+                                <div class="card-body">
+                                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                                        </div>
+                                        <small class="text-muted">9 mins</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>-->
+                    </div>
+                    {% endblock %}    
+                </div> <!-- End Container -->                    
+            </div> <!-- End Album -->
+
+        </main>
+
+        <footer class="text-muted">
+            <div class="container">
+                <p class="float-right">
+                    <a href="#top" title="Αρχή Σελίδας"><i class="fa fa-arrow-circle-up text-info" style="font-size: 3.5em;"></i></a>
+                </p>
+            </div>
+        </footer>
+
+        <!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>-->
+        <script src="{{ base_url() }}/js/jquery-3.3.1.slim.min.js"></script>
+        <script src="{{ base_url() }}/js/popper.min.js"></script>
+        <script src="{{ base_url() }}/js/bootstrap.min.js"></script>
+        <script src="{{ base_url() }}/js/holder.min.js"></script>
+        <!--<script src="{# base_url() #}/js/snowstorm.js"></script>
+        <script src="{# base_url() #}/js/winter.js"></script>-->
+        
+    </body>
+</html>

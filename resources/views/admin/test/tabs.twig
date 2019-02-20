@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="el">
+    <head>        
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="COMTECH">
+        <!--<meta http-equiv="refresh" content="30">-->
+        <link rel="icon" href=""> <!-- Add your ico -->
+        <link rel="stylesheet" href="{{ base_url() }}/css/starter.css">
+        <!--<link rel="stylesheet" href="{{ base_url() }}/css/fontawasome_5_2.css"> -->
+        <link rel="stylesheet" href="{{ base_url() }}/css/bootstrap.min.css">
+        <link rel="stylesheet" href="{{ base_url() }}/css/signin.css" >
+        <link rel="stylesheet" href="{{ base_url() }}/css/dashboard.css" >
+        <link rel="stylesheet" href="{{ base_url() }}/../vendor/fortawesome/font-awesome/css/font-awesome.min.css">
+        <style>
+            .inline {
+                display: inline;
+            }
+            .link-button {
+                background: none;
+                border: none;
+                cursor: pointer;
+            }
+            .link-button:focus {
+                outline: none;
+            }
+
+        </style>
+        {% if auth.check %}
+        <title>{{ logo }} Admin</title>
+        {% else %}
+        <title>Comtech Admin</title>    
+        {% endif %}
+            
+    </head>
+    
+    <body>
+{% include '/admin/navbar.twig' %}
+
+        <!--<main role="main" class="container">-->
+            <!-- Contents -->
+            <!--<div class="starter-template">-->
+                
+
+{% block contents %}
+                    <!--<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">-->
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-11 px-4">
+                <div class="text-center pt-3 pb-2 mb-3 mt-3">
+                    <div class="card border-info">
+                        <div class="card-header">
+                            <ul class="nav nav-pills card-header-pills  justify-content-end">
+                                <li class="nav-item">
+                                    <button type="button" class="btn btn-outline-primary" onclick="postForm()" >Αποθήκευση</button>
+                                  <!--<a href="#" class="nav-link" id="saveme" onclick="postForm()">Αποθήκευση</a>-->
+                                </li>
+                                <li class="nav-item">
+                                  <a class="nav-link" href="#">Ακύρωση</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-body">
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item">
+                                  <a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Στοιχεία Σελίδας</a>
+                                </li>
+                                <li class="nav-item">
+                                  <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Logo</a>
+                                </li>
+                                <!--<li class="nav-item">
+                                  <a class="nav-link" id="messages-tab" data-toggle="tab" href="#messages" role="tab" aria-controls="messages" aria-selected="false">Messages</a>
+                                </li>
+                                <li class="nav-item">
+                                  <a class="nav-link" id="settings-tab" data-toggle="tab" href="#settings" role="tab" aria-controls="settings" aria-selected="false">Settings</a>
+                                </li> -->
+                            </ul>
+                        </div>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div class="tab-pane w-50 ml-2"  id="home" role="tabpanel" aria-labelledby="home-tab">
+                            <form name="page-form" id="page-form" method="post" action="{{ path_for('post_page_settings') }}" autocomplete="off" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="pagename" id="pagename" aria-describedby="emailHelp" placeholder="Όνομα Σελίδας">
+                                </div>
+                                <div class="form-group">
+                                  <input type="text" class="form-control" name="pagetitle" id="pagetitle" placeholder="Τίτλος Σελίδας">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="logoname" id="logoname" placeholder="Όνομα Logo">
+                                 </div>
+                                <!--
+                                <div class="form-group">
+                                    <button class="btn btn-primary form-control"></button>
+                                 </div>
+                            -->
+                            </form>
+                        </div>
+                        <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab">2...</div>
+                        <div class="tab-pane" id="messages" role="tabpanel" aria-labelledby="messages-tab">3...</div>
+                        <div class="tab-pane" id="settings" role="tabpanel" aria-labelledby="settings-tab">4...</div>
+                    </div>
+                    </div>
+                </div>
+            </main>
+{% endblock %}
+            <!--</div>-->
+            <!-- End Contents -->
+        <!--</main>-->
+        <!-- /.container -->
+        <!-- Footer -->
+        <!--<footer class="footer">
+            <div class="container">
+                <span class="text-light">COMTECH <sup>&copy;</sup> 2003 - {{ "now"|date("Y") }}</span>
+            </div>
+        </footer>-->
+        <!-- End Footer -->
+        
+        <!-- Loading scripts -->    
+        
+        <script  type="text/javascript" src="{{ base_url() }}/js/jquery-3.3.1.slim.min.js"></script>
+        
+        <script  type="text/javascript" src="{{ base_url() }}/js/popper.min.js"></script>
+    
+        <script  type="text/javascript" src="{{ base_url() }}/js/bootstrap.min.js"></script>
+
+        <script  type="text/javascript" src="{{ base_url() }}/js/main.js"></script>
+        
+        
+        <!-- Icons -->
+    <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+    <script>
+      feather.replace()
+    </script>
+        
+        <!-- Graphs -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+    <script>
+        /*
+      var ctx = document.getElementById("myChart");
+      var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+          datasets: [{
+            data: [15339, 21345, 18483, 24003, 23489, 24092, 12034],
+            lineTension: 0,
+            backgroundColor: 'transparent',
+            borderColor: '#007bff',
+            borderWidth: 4,
+            pointBackgroundColor: '#007bff'
+          }]
+        },
+        options: {
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: false
+              }
+            }]
+          },
+          legend: {
+            display: false,
+          }
+        }
+      });
+    */
+    </script>
+        
+    <script>
+        /* show file value after file select */
+        /*
+        $('.custom-file-input').on('change',function(){
+            var fileName = document.getElementById("inputLogoImg").files[0].name;
+            $(this).next('.form-control-file').addClass("selected").html(fileName);
+        })
+*/
+        /* method 2 - change file input to text input after selection */
+        /*
+            $('.custom-file-input').on('change',function(){
+            var fileName = $(this).val();
+            $(this).next('.form-control-file').hide();
+            $(this).toggleClass('form-control custom-file-input').attr('type','text').val(fileName);
+        });
+*/
+
+$('#inputLogoImg').on('change',function(){
+                //get the file name
+                var fileName = $(this).val();
+                //replace the "Choose a file" label
+                $(this).next('.custom-file-label').html(fileName);
+            });
+            
+           
+                      
+            function postForm() {
+                var x = document.getElementsByName('page-form');
+                x[0].submit();
+            }
+           
+    </script>
+        <!-- End of scripts -->
+    </body>
+</html>
+

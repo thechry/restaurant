@@ -1,0 +1,152 @@
+{% extends "admin/admin_home.twig" %}
+
+{% block contents %}      
+     {% if auth.check %}
+<main role="main" class="col-md-9 ml-sm-auto col-lg-12 px-4">
+    <!-- Start Breadcrump -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href='{{ base_url() }}/admin/dashboard'>Αρχική</a></li>
+            <li class="breadcrumb-item"><a href='{{ base_url() }}/admin/dashboard/subcategory/list'>Εμφάνιση Υποκατηγοριών</a></li>
+            <li class="breadcrumb-item active">Μεταβολή Υποκατηγοριας</li>
+        </ol>
+    </nav>
+    <!-- End Breadcrump -->
+                <div class="text-center pt-3 pb-2 mb-3 mt-3">
+                    <div class="card border-info">
+                        <!-- Start Save or Cancel -->
+                        <div class="card-header">
+                            <ul class="nav nav-pills card-header-pills  justify-content-end">
+                                <li class="nav-item">
+                                        <button type="button" class="btn btn-outline-primary" onclick="postSubcategoryForm()" tabindex="14">Αποθήκευση</button>
+                                </li>
+                                <li class="nav-item">
+                                  <a class="nav-link" href="{{ path_for('show_subcategories') }}" tabindex="15">Ακύρωση</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- End Save or Cancel -->
+                        
+                        <!-- Start Tabs -->
+                        <div class="container-fluid">
+                            <!-- First Tab Menu -->
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item">
+                                  <a class="nav-link" id="home-tab" data-toggle="tab" href="#subcat" role="tab" aria-controls="home" aria-selected="true" tabindex="1">Στοιχεία Υποκατηγορίας</a>
+                                </li>
+                                <li class="nav-item">
+                                  <a class="nav-link" id="img-tab" data-toggle="tab" href="#subcat-logo" role="tab" aria-controls="img_tab" aria-selected="false" tabindex="12">Εικόνα Υποκατηγορίας</a>
+                                </li>
+                            </ul>
+                            <!-- End First Tab Menu -->
+
+                    <form name="subcategory_form" id="form_page" method="post" action="{{ path_for('post_edited_subcategory') }}" autocomplete="off" enctype="multipart/form-data">
+                                                        
+                    <!-- Start First Tab Menu Contents -->
+                    <div id="subcat-nav-content" class="tab-content">
+                        <div role="tabpanel" class="tab-pane fade show active" id="subcat" aria-labelledby="subcat">
+                            <ul role="tablist" class="nav nav-tabs">
+                                <li class="nav-item">
+                                    <a href="#gr" class="nav-link" role="tab" data-toggle="tab" aria-controls="gr" aria-expanded="true" tabindex="2">Ελληνικά</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#en" class="nav-link" role="tab" data-toggle="tab" aria-controls="en" aria-expanded="true" tabindex="9">Αγγλικά</a>
+                                </li>
+                            </ul>
+                            <!-- End Second Tab Menu -->
+                            
+                            <!-- Start Second Tab Menu Contents -->
+                            <div id="lang-nav-content" class="tab-content mb-5">
+                                <!-- Greek -->
+                                <div class="tab-pane w-50 ml-2 fade show active"  id="gr" role="tabpanel" aria-labelledby="gr-tab">
+                                    <div class="form-group text-left">
+                                        <label for="subcategoryname_gr"><strong>&nbsp;Υποκατηγορία</strong></label>
+                                        <input type="text" class="form-control" name="subcategoryname_gr" id="subcategoryname_gr" aria-describedby="emailHelp" placeholder="Υποκατηγορία" value="{{ subcat_title[0][0] }}" required tabindex="3">
+                                        <small class="text-muted">Όνομα υποκατηγορίας. <u>Υποχρεωτικό πεδίο!</u></small>
+                                    </div>                            
+                                    <div class="form-group text-left">
+                                        <label for="selectcategory"><strong>&nbsp;Κατηγορία όπου ανήκει</strong></label>
+                                        <select name="selectcategory" required tabindex="4">
+                                            <option value="{{ subcat_cat_id }}" selected>{{ subcat_cat_name[0][0] }}</option>
+                                            <option disabled>----------</option>
+                                            {% set len = 0 %}
+                                            {% if categories is iterable %}
+                                                {% for category in categories %}
+                                            <option value="{{ category.id }}">{{ cat_name[len][0][0] }}</option>
+                                            {% set len = len + 1 %}
+                                                {% endfor %}
+                                            {% else %}
+                                                <option value="-1">Δεν υπάρχουν κατηγορίες</option>
+                                            {% endif %}
+                                        </select>
+                                        <small class="text-muted">Κατηγορία όπου ανήκει.</small>
+                                    </div>                            
+                                    <div class="form-group text-left">
+                                        <label class="form-check-label pr-4" for="subcategoryactive"><strong>Ενεργή</strong></label>        
+                                        <input class="form-check-input" {% if subcat_active == 1 %}checked{% endif %} type="checkbox" name="active" id="subcatactive" value="{{ subcat_active }}" tabindex="5">
+                                        <small class="text-muted">Εμφάνιση υποκατηγορίας.</small>
+                                    </div>                            
+                                    <div class="form-group text-left">
+                                        <label for="subcategotydescription_gr"><strong>&nbsp;Περιγραφή Υποκατηγορίας</strong></label>
+                                      <input type="text" class="form-control" name="subcategotydescription_gr" id="subcategotydescription_gr" placeholder="Περιγραφή Υποκατηγορίας" value="{{ subcat_desc[0][0] }}" required tabindex="6">
+                                      <small class="text-muted">Περιγραφή υποκατηγορίας. <u>Υποχρεωτικό πεδίο!</u></small>
+                                    </div>
+                                    <div class="form-group text-left">
+                                        <label for="subcategoryslug"><strong>&nbsp;Ψευδώνυμο Υποκατηγορίας</strong></label>
+                                      <input type="text" class="form-control" name="subcategoryslug" id="subcategotyslug" placeholder="Ψευδώνυμο Υποκατηγορίας" value="{{ subcat_slug }}" tabindex="7">
+                                      <small class="text-muted">Ψευδώνυμο υποκατηγορίας. <u>Υποχρεωτικό πεδίο!</u></small>
+                                    </div>
+                                    <div class="form-group text-left">
+                                        <label for="subcategoryorder"><strong>&nbsp;Ταξινόμηση Υποκατηγορίας</strong></label>
+                                        <input type="range" class="form-control " name="subcategoryorder" id="subcategoryorder" min="0" max="99" value="{{ subcat_order }}" onchange="rangevalue.value=value" tabindex="8">
+                                        <output class="text-info" id="rangevalue">{{ subcat_order }}</output>
+                                        <small class="text-muted">Ταξινόμηση υποκατηγορίας από 0 έως 99</small>
+                                    </div>
+                                </div>
+                                <!-- End Greek -->
+
+                                <!-- English -->
+                                <div class="tab-pane w-50 ml-2"  id="en" role="tabpanel" aria-labelledby="en-tab">
+                                    <div class="form-group text-left">
+                                        <label for="subcategoryname_en"><strong>&nbsp;Υποκατηγορία</strong></label>
+                                        <input type="text" class="form-control" name="subcategoryname_en" id="subcategoryname_en" aria-describedby="emailHelp" placeholder="Subcategory" value="{{ subcat_title[1][0] }}" required tabindex="10">
+                                        <small class="text-muted">Όνομα υποκατηγορίας. <u>Υποχρεωτικό πεδίο!</u></small>
+                                    </div>
+                                    <div class="form-group text-left">
+                                        <label for="subcategotydescription_en"><strong>&nbsp;Περιγραφή Υποκατηγορίας</strong></label>
+                                      <input type="text" class="form-control" name="subcategotydescription_en" id="subcategotydescription_en" placeholder="Subcategory Description" value="{{ subcat_desc[1][0] }}" required tabindex="11">
+                                      <small class="text-muted">Περιγραφή υποκατηγορίας. <u>Υποχρεωτικό πεδίο!</u></small>
+                                    </div>
+                                </div>
+                                <!-- End English -->
+                            </div>
+                            <!-- End Second Tab Menu Contents -->
+                        </div>
+
+                        <div class="tab-pane w-50 ml-2 py-5" id="subcat-logo" role="tabpanel" aria-labelledby="profile-tab">
+                            <div class="form-group custom-file" id="customFile">
+                                <input type="file" class="custom-file-input" name="subcatimg" id="inputSubcategoryImg" aria-describedby="fileHelp" multiple tabindex="13">
+                                <small class="text-muted">Εινόνα υποκατηγορίας. <u>Υποχρεωτικό πεδίο!</u></small>
+                                <label class="custom-file-label" for="inputSubcategoryImg">
+                                    {% if subcat_foto is empty%}
+                                        Εικόνα Κατηγορίας
+                                    {% else %}
+                                        {{ subcat_foto }}
+                                    {% endif %}
+                                </label>
+                                <div class="form-group mt-2" id="thumb-subcat">
+                                    <img src="{{ subcat_path }}{{ subcat_foto }}" height="35px" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{ csrf.field | raw }}
+                    <input type="hidden" name="subcatid" value="{{ subcat_id }}">
+                    <!--<input type="hidden" name="subcatid_en" value="{# subcat_id #}">-->
+                </form>
+            </div>
+        </div>
+        <p> {{ error }} </p>
+    </main> 
+{% endif %}
+{% endblock %}

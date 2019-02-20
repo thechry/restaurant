@@ -1,0 +1,36 @@
+        <header>
+            <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top shadow-sm">
+                {% if auth.check %}
+                <a class="navbar-brand d-flex align-items-center navbar-dark bg-dark" href="{{ path_for('admin_home') }}">
+                    <img src="{{ path }}{{ logo_img }}" height="60px" />&nbsp;{{ logo[0][0] }} Διαχείρηση</a> 
+                {% else %}
+                    <a class="navbar-brand d-flex align-items-center navbar-dark bg-dark" href="{{ path_for('admin_signin') }}">Comtech Διαχείρηση</a> 
+                {% endif %}
+                
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#comtech" aria-controls="comtech" aria-expanded="false" aria-label="Comtech navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="comtech">
+                    {% if auth.check %}
+                    <ul class="nav navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button" >Μενού</a>
+                                <div class="dropdown-menu" aria-labelledby="dropdown01">
+                                <a class="dropdown-item" href="{{ path_for('show_products') }}">Προϊόντα</a>
+                                <a class="dropdown-item" href="{{ path_for('show_subcategories') }}">Υποκατηγορίες</a>
+                                <a class="dropdown-item" href="{{ path_for('show_categories') }}">Κατηγορίες</a>
+                                <a class="dropdown-item" href="{{ path_for('page_settings_form') }}">Στοιχεία Σελίδας</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{{ path_for('admin_signup') }}">Νέος Χρήστης</a>
+                                </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Καλώς ήρθες:&nbsp;{{ auth.user.username}}</a>
+                                <div class="dropdown-menu" aria-labelledby="dropdown02">
+                                    <a class="dropdown-item" href="#">Αλλάγή κωδικού</a>
+                                    <a class="dropdown-item" href="{{ path_for('admin_signout') }}">Αποσύνδεση</a>
+                                </div>
+                        </li>
+                    </ul>
+                    {% endif %}
+                </div>
+            </nav>
+        </header>

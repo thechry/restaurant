@@ -1,0 +1,132 @@
+{% extends "admin/admin_home.twig" %}
+
+{% block contents %}      
+     {% if auth.check %}
+<main role="main" class="col-md-9 ml-sm-auto col-lg-12 px-4">
+    <!-- Start Breadcrump -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href='{{ base_url() }}/admin/dashboard'>Αρχική</a></li>
+            <li class="breadcrumb-item"><a href='{{ base_url() }}/admin/dashboard/category/list'>Εμφάνιση Κατηγοριών</a></li>
+            <li class="breadcrumb-item active">Εισαγωγή Κατηγορίας</li>
+        </ol>
+    </nav>
+    <!-- End Breadcrump -->
+    
+                <div class="text-center pt-3 pb-2 mb-3 mt-3">
+                    <div class="card border-info">
+                        <!-- Start Save or Cancel -->
+                        <div class="card-header">
+                            <ul class="nav nav-pills card-header-pills  justify-content-end">
+                                <li class="nav-item">
+                                    <button type="button" class="btn btn-outline-primary" onclick="postCategoryForm()" tabindex="12">Αποθήκευση</button>
+                                </li>
+                                <li class="nav-item">
+                                  <a class="nav-link" href="{{ path_for('show_categories') }}" tabindex="13">Ακύρωση</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- End Save or Cancel -->
+                        
+                <!-- Start Tabs -->
+                <div class="container-fluid">
+                    <!-- First Tab Menu -->
+                    <ul id="cat-nav" class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#cat" id="cat-tab" role="tab" data-toggle="tab" aria-controls="cat" aria-expanded="true" tabindex="1">Εισαγωγή Κατηγορίας</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#cat-logo" id="cat-logo-tab" role="tab" data-toggle="tab" aria-controls="cat-logo" aria-expanded="true" tabindex="10">Εικόνα Κατηγορίας</a>
+                        </li>
+                    </ul>
+                    <!-- End First Tab Menu -->
+                        
+                    <form name="category_form" id="form_page" method="post" action="{{ path_for('insert_category_form') }}" autocomplete="off" enctype="multipart/form-data">
+                        <!-- Start First Tab Menu Contents -->
+                        <div id="cat-nav-content" class="tab-content">
+                            <div role="tabpanel" class="tab-pane fade show active" id="cat" aria-labelledby="cat">
+                                <!-- Start Second Tab Menu -->
+                                <ul role="tablist" class="nav nav-tabs">
+                                    <li class="nav-item">
+                                        <a href="#gr" class="nav-link" role="tab" data-toggle="tab" aria-controls="gr" aria-expanded="true" tabindex="2">Ελληνικά</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#en" class="nav-link" role="tab" data-toggle="tab" aria-controls="en" aria-expanded="true" tabindex="8">Αγγλικά</a>
+                                    </li>
+                                </ul>
+                                <!-- End Second Tab Menu -->
+
+                                <!-- Start Second Tab Menu Contents -->
+                                <div id="lang-nav-content" class="tab-content mb-5">
+                                    <!-- Greek -->
+                                    <div class="tab-pane w-50 ml-2 fade show active"  id="gr" role="tabpanel" aria-labelledby="gr">
+                                        <div class="form-group text-left">
+                                            <label for="categoryname_gr"><strong>&nbsp;Κατηγορία</strong></label>
+                                            <input type="text" class="form-control" name="categoryname_gr" id="categoryname_gr" aria-describedby="categoryname_gr" placeholder="Κατηγορία" value="" required tabindex="3">
+                                            <small class="text-muted">Όνομα κατηγορίας. <u>Υποχρεωτικό πεδίο!</u></small>
+                                        </div>
+                                        <div class="form-group text-left">
+                                            <label class="form-check-label pr-4" for="categoryactive"><strong>Ενεργή</strong></label>
+                                            <input class="form-check-input" type="checkbox" name="catactive" id="catactive" value="1" tabindex="4">
+                                            <small class="text-muted">Εμφάνιση κατηγορίας.</small>
+                                        </div>
+                                        <div class="form-group text-left">
+                                            <label for="categorydescription_gr"><strong>&nbsp;Περιγραφή Κατηγορίας</strong></label>
+                                          <input type="text" class="form-control" name="categorydescription_gr" id="categotydescription_gr" placeholder="Περιγραφή Κατηγορίας" value="" required tabindex="5">
+                                          <small class="text-muted">Περιγραφή κατηγορίας. <u>Υποχρεωτικό πεδίο!</u></small>
+                                        </div>
+                                        <div class="form-group text-left">
+                                            <label for="categoryslug"><strong>&nbsp;Ψευδώνυμο Κατηγορίας</strong></label>
+                                          <input type="text" class="form-control" name="categoryslug" id="categotyslug" placeholder="Αυτόματο Ψευδώνυμο Κατηγορίας" disabled tabindex="6">
+                                          <small class="text-muted">Αυτόματη δημιουργία ψευδώνυμου.</small>
+                                        </div>
+                                        <div class="form-group text-left">
+                                            <label for="categoryorder"><strong>&nbsp;Ταξινόμηση Κατηγορίας</strong></label>
+                                            <input type="range" class="form-control " name="categoryorder" id="categoryorder" min="0" max="10" value="10" onchange="rangevalue.value=value" tabindex="7">
+                                            <output class="text-info" id="rangevalue">10</output>
+                                            <small class="text-muted">Ταξινόμηση κατηγορίας από 0 έως 10.</small>
+                                        </div>
+                                    </div>
+                                    <!-- End Greek -->
+
+                                    <!-- English -->
+                                    <div class="tab-pane w-50 ml-2 fade"  id="en" role="tabpanel" aria-labelledby="en" aria-selected="false">
+                                        <div class="form-group text-left">
+                                            <label for="categoryname_en"><strong>&nbsp;Κατηγορία</strong></label>
+                                            <input type="text" class="form-control" name="categoryname_en" id="categoryname_en" aria-describedby="emailHelp" placeholder="Category" value="" required tabindex="8">
+                                            <small class="text-muted">Όνομα κατηγορίας. <u>Υποχρεωτικό πεδίο!</u></small>
+                                        </div>
+                                        <div class="form-group text-left">
+                                            <label for="categorydescription_en"><strong>&nbsp;Περιγραφή Κατηγορίας</strong></label>
+                                            <input type="text" class="form-control" name="categorydescription_en" id="categotydescription_en" placeholder="Category Description" value="" required tabindex="9">
+                                            <small class="text-muted">Περιγραφή κατηγορίας. <u>Υποχρεωτικό πεδίο!</u></small>
+                                        </div>
+                                    </div>
+                                    <!-- End Engllish -->
+                                </div>
+                                <!-- End Second Tab Menu Contents -->
+                            </div>
+                            <div role="tabpanel" class="tab-pane fade show" id="cat-logo" aria-labelledby="cat-logo">
+                                <div class="tab-pane w-50 ml-2 py-5" id="page2" role="tabpanel" aria-labelledby="profile-tab">
+                                    <div class="form-group custom-file" id="customFile">
+                                        <input type="file" class="custom-file-input" name="catimg" id="inputCategoryImg" aria-describedby="fileHelp" multiple tabindex="11">
+                                        <small class="text-muted">Εικόνα κατηγορίας. <u>Υποχρεωτικό πεδίο!</u></small>
+                                        <label class="custom-file-label" for="inputCategoryImg_gr">
+                                            Εικόνα Κατηγορίας
+                                        </label>
+                                        <div class="form-group mt-2" id="thumb-cat"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    {{ csrf.field | raw }}
+                    <!-- End First Tab Menu Contents -->
+                </form>
+            </div>
+        </div>
+    </div>
+    <p> {{ error }} </p>
+</main> 
+{% endif %}
+{% endblock %}
