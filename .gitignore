@@ -55,3 +55,4 @@ log/*
 /app/Controllers/_ProductController.php
 /app/Controllers/Admin/Page/_PageSettingsController.php
 /app/Controllers/Admin/Test/TabsTestController.php
+/app/Controllers/_User/
