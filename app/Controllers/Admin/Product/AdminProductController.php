@@ -91,8 +91,7 @@ class AdminProductController extends AdminBaseController
     // Ajax html select option from other html select
     public function subcatData($request, $response, $args) {
         if($request->isXhr()) { // XMLHttpRequest (AJax)
-            $catid = $request->getParam('get_option'); // return string
-            $catid = (int) $catid; // casting
+            $catid = (int) $request->getParam('get_option'); // return string
             $find = AdminSubcategory::select('id', 'subcategory_title')->where('subcategory_category_id', $catid)->get();
             $len = count($find);
             for($i = 0; $i < $len; $i++) {
