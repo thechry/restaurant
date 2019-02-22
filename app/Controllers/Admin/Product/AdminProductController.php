@@ -44,9 +44,11 @@ class AdminProductController extends AdminBaseController
             $subcategoryTitlesUnserialized[$i] = unserialize($subcategories[$i]->subcategory_title);
             $subcategoryDescsUnserialized[$i] = unserialize($subcategories[$i]->subcategory_desc);
         }
-//        var_dump($subcategoryTitlesUnserialized);
-//        die();
         
+//         $find = AdminSubcategory::select('id', 'subcategory_title')->where('subcategory_category_id', '=', 14)->get();
+// var_dump($find[1]->subcategory_title);
+ //die();
+
         if(empty($page_data->logo_img)) {
             return $this->c->view->render($response, '/admin/product/insert_product.twig', [
                 'logo' => $pageLogoNames,
@@ -84,6 +86,21 @@ class AdminProductController extends AdminBaseController
             'page_id' => $page_data->id,
        ]);
        // End Update page settings block
+    }
+    
+    // Ajax html select option from other html select
+    public function subcatData($request, $response, $args) {
+        if($request->isXhr()) { // XMLHttpRequest (AJax)
+            $catid = $request->getParam('get_option'); // return string
+            $catid = (int) $catid; // casting
+            $find = AdminSubcategory::select('id', 'subcategory_title')->where('subcategory_category_id', $catid)->get();
+            $len = count($find);
+            for($i = 0; $i < $len; $i++) {
+                $option[$i] = unserialize($find[$i]->subcategory_title);
+                echo '<option value="' . $find[$i]->id . '">' . $option[$i][0][0] . '</option>';
+            }
+            exit;
+        }
     }
     
     public function postProduct($request, $response)

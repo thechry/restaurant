@@ -54,6 +54,7 @@ $app->group('/admin', function() {
         // Product
         $this->get('/product/insert', AdminProductController::class . ':insertProduct')->setname('insert_product_form');
         $this->post('/product/insert', AdminProductController::class . ':postProduct');
+        $this->get('/product/subcatSelect', AdminProductController::class . ':subcatData');
         $this->get('/product/list', AdminProductController::class . ':listProduct')->setName('show_products');
         $this->post('/product/edit', AdminProductController::class .':editProduct')->setName('edit_product');
         $this->post('/product/edit/post', AdminProductController::class . ':postEditedProduct')->setName('post_edited_product');

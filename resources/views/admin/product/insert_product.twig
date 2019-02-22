@@ -1,7 +1,23 @@
 {% extends "admin/admin_home.twig" %}
 
 {% block contents %}      
-     {% if auth.check %}
+    {% if auth.check %}
+    <!--<script>
+         function fetch_select(val) {
+            alert(val);
+            $.ajax({
+                type: 'post',
+                url: "subcat_data.php",
+                data: { get_option:val },
+                success: function (response) {
+                    document.getElementById("selectsubcategory").innerHTML=response; 
+                },
+                error: function(textStatus){
+                    alert('Error: ' + textStatus);
+                }
+            });
+        }
+    </script>-->
 <main role="main" class="col-md-9 ml-sm-auto col-lg-12 px-4">
     <!-- Start Breadcrump -->
     <nav aria-label="breadcrumb">
@@ -87,7 +103,9 @@
                                     </div>                            
                                     <div class="form-group text-left">
                                         <label for="selectcategory"><strong>&nbsp;Κατηγορία όπου ανήκει</strong></label>
-                                        <select name="selectcategory" required tabindex="8">
+                                        <select name="selectcategory" id="selectcategory" onchange="fetch_select(this.value);" required tabindex="8">
+                                            <option value="-1">Επιλογή Κατηγορίας</option>
+                                            <option disabled>-------------------------</option>
                                             {% set cat_len = 0 %}
                                             {% if categories is iterable %}
                                                 {% for category in categories %}
@@ -102,16 +120,7 @@
                                     </div>                            
                                     <div class="form-group text-left">
                                         <label for="selectsubcategory"><strong>&nbsp;Υποκατηγορία όπου ανήκει</strong></label>
-                                        <select name="selectsubcategory" required tabindex="9">
-                                            {% set subcat_len = 0 %}
-                                            {% if subcategories is iterable %}
-                                                {% for subcategory in subcategories %}
-                                            <option value="{{ subcategory.id }}">{{ subcat_titles[subcat_len][0][0] }}</option>
-                                                {% set subcat_len = subcat_len + 1 %}
-                                                {% endfor %}
-                                            {% else %}
-                                                <option value="-1">Δεν υπάρχουν κατηγορίες</option>
-                                            {% endif %}
+                                        <select name="selectsubcategory" id="selectsubcategory" required tabindex="9">
                                         </select>
                                         <small class="text-muted">Υποκατηγορία προϊόντος. <u>Υποχρεωτικό πεδίο!</u></small>
                                     </div>
