@@ -281,6 +281,7 @@ function fetch_select(val) {
     $.ajax({
         type: 'get',
         url: 'http://localhost/restaurant-slim-v1/public/admin/dashboard/product/subcatSelect',
+        //url: 'http://com-tech.ath.forthnet.gr/restaurant-v1_1/public/admin/dashboard/product/subcatSelect', // Linux
         data: { get_option:val },
         success: function (response) {
             document.getElementById("selectsubcategory").innerHTML=response; 
@@ -292,6 +293,7 @@ function fetch_edit_select(val) {
     $.ajax({
         type: 'get',
         url: 'http://localhost/restaurant-slim-v1/public/admin/dashboard/product/edit/subcatSelect',
+        //url: 'http://com-tech.ath.forthnet.gr/restaurant-v1_1/public/admin/dashboard/product/edit/subcatSelect', // Linux
         data: { get_option:val },
         success: function (response) {
             document.getElementById("selectsubcategory").innerHTML=response; 
