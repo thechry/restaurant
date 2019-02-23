@@ -2,6 +2,22 @@
 
 {% block contents %}      
      {% if auth.check %}
+<!--<script>
+         function fetch_select(val) {
+            alert(val);
+            $.ajax({
+                type: 'post',
+                url: "subcat_data.php",
+                data: { get_option:val },
+                success: function (response) {
+                    document.getElementById("selectsubcategory").innerHTML=response; 
+                },
+                error: function(textStatus){
+                    alert('Error: ' + textStatus);
+                }
+            });
+        }
+    </script>-->         
 <main role="main" class="col-md-9 ml-sm-auto col-lg-12 px-4">
     <!-- Start Breadcrump -->
     <nav aria-label="breadcrumb">
@@ -86,7 +102,7 @@
                                     </div>
                                     <div class="form-group text-left">
                                         <label for="selectcategory"><strong>&nbsp;Κατηγορία όπου ανήκει</strong></label>
-                                        <select name="selectcategory" required tabindex="8">
+                                        <select name="selectcategory" required onchange="fetch_edit_select(this.value);" tabindex="8">
                                             <option value="{{ product_cat_id }}" selected>{{ product_cat_name[0][0] }}</option>
                                             <option disabled>----------</option>
                                             {% set cat_len = 0 %}
@@ -103,18 +119,8 @@
                                     </div>
                                     <div class="form-group text-left">
                                         <label for="selectsubcategory"><strong>&nbsp;Υποκατηγορία όπου ανήκει</strong></label>
-                                        <select name="selectsubcategory" required tabindex="9">
+                                        <select name="selectsubcategory" id="selectsubcategory" required tabindex="9">
                                             <option value="{{ product_subcat_id }}" selected>{{ product_subcat_name[0][0] }}</option>
-                                            <option disabled>----------</option>
-                                            {% set subcat_len = 0 %}
-                                            {% if subcategories is iterable %}
-                                                {% for subcategory in subcategories %}
-                                            <option value="{{ subcategory.id }}">{{ subcat_titles[subcat_len][0][0] }}</option>
-                                                {% set subcat_len = subcat_len + 1 %}
-                                                {% endfor %}
-                                            {% else %}
-                                                <option value="-1">Δεν υπάρχουν υποκατηγορίες</option>
-                                            {% endif %}
                                         </select>
                                         <small class="text-muted">Υποκατηγορία προϊόντος. <u>Υποχρεωτικό πεδίο!</u></small>
                                     </div>

@@ -102,6 +102,20 @@ class AdminProductController extends AdminBaseController
         }
     }
     
+    // Ajax html select option from other html select
+    public function subcatEditData($request, $response, $args) {
+        if($request->isXhr()) { // XMLHttpRequest (AJax)
+            $catid = (int) $request->getParam('get_option'); // return string
+            $find = AdminSubcategory::select('id', 'subcategory_title')->where('subcategory_category_id', $catid)->get();
+            $len = count($find);
+            for($i = 0; $i < $len; $i++) {
+                $option[$i] = unserialize($find[$i]->subcategory_title);
+                echo '<option value="' . $find[$i]->id . '">' . $option[$i][0][0] . '</option>';
+            }
+            exit;
+        }
+    }
+    
     public function postProduct($request, $response)
     {
         $validation = $this->c->validator->validate($request, [

@@ -58,6 +58,7 @@ $app->group('/admin', function() {
         $this->get('/product/list', AdminProductController::class . ':listProduct')->setName('show_products');
         $this->post('/product/edit', AdminProductController::class .':editProduct')->setName('edit_product');
         $this->post('/product/edit/post', AdminProductController::class . ':postEditedProduct')->setName('post_edited_product');
+        $this->get('/product/edit/subcatSelect', AdminProductController::class . ':subcatEditData');
         // End Product
     });
 

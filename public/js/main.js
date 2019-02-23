@@ -288,6 +288,17 @@ function fetch_select(val) {
     });
 }           
            
+function fetch_edit_select(val) {
+    $.ajax({
+        type: 'get',
+        url: 'http://localhost/restaurant-slim-v1/public/admin/dashboard/product/edit/subcatSelect',
+        data: { get_option:val },
+        success: function (response) {
+            document.getElementById("selectsubcategory").innerHTML=response; 
+        }
+    });
+}           
+           
 function postPageForm() {
      var x = document.getElementsByName('page_form');
      x[0].submit();
